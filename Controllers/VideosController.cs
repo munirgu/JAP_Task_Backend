@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace JAP_Task_Backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("videos")]
 
 
     public class VideosController : Controller

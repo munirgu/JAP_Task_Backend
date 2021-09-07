@@ -1,13 +1,9 @@
 ﻿using JAP_Task_Backend.Database;
+using JAP_Task_Backend.DTO;
 using JAP_Task_Backend.Enums;
-using JAP_Task_Backend.Models;
-using System;
+using JAP_Task_Backend.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using JAP_Task_Backend.Interfaces;
-using JAP_Task_Backend.DTO;
 
 namespace JAP_Task_Backend.Services
 
@@ -38,7 +34,7 @@ namespace JAP_Task_Backend.Services
                     Rating = s.Ratings.Average(a => a.Score),
                     Actors = s.Actors.Select(x => x.Name).ToList()
                 })
-                .OrderByDescending(o=>o.Rating)
+                .OrderByDescending(o => o.Rating)
                 .Take(10)
                 .ToList();
             return videos;
