@@ -11,5 +11,6 @@ namespace JAP_Task_Backend.Interfaces
     public interface IVideoService
     {
         List<VideoDto> GetTopTenVideos(VideoType videoType);
+        List<VideoDto> GetAllVideos(VideoType videoType);
     }
 }

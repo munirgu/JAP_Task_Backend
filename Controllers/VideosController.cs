@@ -33,5 +33,19 @@ namespace JAP_Task_Backend.Controllers
         {
             return Ok(_videoService.GetTopTenVideos(VideoType.TvShow));
         }
+
+
+        [HttpGet("get-all-movie-videos")]
+        public IActionResult GetAllMovieVideos()
+        {
+            return Ok(_videoService.GetAllVideos(VideoType.Movie));
+        }
+
+        [HttpGet("get-all-show-videos")]
+        public IActionResult GetAllShowVideos()
+        {
+            return Ok(_videoService.GetAllVideos(VideoType.TvShow));
+        }
     }
 }
+

@@ -40,5 +40,27 @@ namespace JAP_Task_Backend.Services
             return videos;
 
         }
+
+        public List<VideoDto> GetAllVideos(VideoType videoType)
+        {
+            var videos = _context.Videos
+                .Where(w => w.Type == videoType)
+                .Select(s => new VideoDto
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Description = s.Description,
+                    ReleaseDate = s.ReleaseDate,
+                    ImageUrl = s.ImageUrl,
+                    Rating = s.Ratings.Average(a => a.Score),
+                    Actors = s.Actors.Select(x => x.Name).ToList()
+                })
+                .OrderByDescending(o => o.Rating)
+                .Take(15)
+                .ToList();
+            return videos;
+
+        }
     }
+
 }
