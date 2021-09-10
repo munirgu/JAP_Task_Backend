@@ -19,5 +19,7 @@ namespace JAP_Task_Backend.DTO
         public List<string> Actors { get; set; }
         public double Rating { get; set; }
 
+       
+
     }
 }

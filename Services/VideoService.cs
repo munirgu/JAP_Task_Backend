@@ -2,6 +2,7 @@
 using JAP_Task_Backend.DTO;
 using JAP_Task_Backend.Enums;
 using JAP_Task_Backend.Interfaces;
+using JAP_Task_Backend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,14 +15,17 @@ namespace JAP_Task_Backend.Services
     public class VideoService : IVideoService
     {
         private readonly ApplicationDbContext _context;
+        private const int pageSize = 10;
 
         public VideoService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public List<VideoDto> GetTopTenVideos(VideoType videoType)
+        public List<VideoDto> GetTopTenVideos(VideoType videoType, int currentPage = 1)
         {
+            if (currentPage < 1)
+                currentPage = 1;
             var videos = _context.Videos
                 .Where(w => w.Type == videoType)
                 .Select(s => new VideoDto
@@ -35,16 +39,22 @@ namespace JAP_Task_Backend.Services
                     Actors = s.Actors.Select(x => x.Name).ToList()
                 })
                 .OrderByDescending(o => o.Rating)
-                .Take(10)
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
             return videos;
 
         }
 
-        public List<VideoDto> GetAllVideos(VideoType videoType)
+        public List<VideoDto> SearchMovies(VideoType videoType, string quickSearch)
         {
+
+
+
             var videos = _context.Videos
-                .Where(w => w.Type == videoType)
+                .Where(w => w.Type == videoType &&
+                      (w.Title.ToLower().Contains(quickSearch.ToLower()) ||
+                       w.Description.ToLower().Contains(quickSearch.ToLower())))
                 .Select(s => new VideoDto
                 {
                     Id = s.Id,
@@ -56,11 +66,24 @@ namespace JAP_Task_Backend.Services
                     Actors = s.Actors.Select(x => x.Name).ToList()
                 })
                 .OrderByDescending(o => o.Rating)
-                .Take(15)
                 .ToList();
             return videos;
 
         }
+
+
+        public void RateVideo(int id, int score)
+        {
+            var rating = new Rating()
+            {
+                VideoId = id,
+                Score = score
+            };
+            _context.Ratings.Add(rating);
+            _context.SaveChanges();
+        }
+
     }
+
 
 }

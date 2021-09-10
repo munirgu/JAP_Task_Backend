@@ -23,28 +23,39 @@ namespace JAP_Task_Backend.Controllers
         }
 
         [HttpGet("get-top-ten-movies")]
-        public IActionResult GetTopTenMovies()
+        public IActionResult GetTopTenMovies(int currentPage)
         {
-            return Ok(_videoService.GetTopTenVideos(VideoType.Movie));
+            return Ok(_videoService.GetTopTenVideos(VideoType.Movie,currentPage));
         }
 
         [HttpGet("get-top-ten-shows")]
-        public IActionResult GetTopTenShows()
+        public IActionResult GetTopTenShows(int currentPage)
         {
-            return Ok(_videoService.GetTopTenVideos(VideoType.TvShow));
+            return Ok(_videoService.GetTopTenVideos(VideoType.TvShow, currentPage));
         }
 
 
-        [HttpGet("get-all-movie-videos")]
-        public IActionResult GetAllMovieVideos()
+
+
+        [HttpGet("search-movie-videos")]
+        public IActionResult SearchMovies(string quickSearch)
         {
-            return Ok(_videoService.GetAllVideos(VideoType.Movie));
+            return Ok(_videoService.SearchMovies(VideoType.Movie,quickSearch ));
         }
 
-        [HttpGet("get-all-show-videos")]
-        public IActionResult GetAllShowVideos()
+        [HttpGet("search-show-videos")]
+        public IActionResult SearchTvShows(string quickSearch)
         {
-            return Ok(_videoService.GetAllVideos(VideoType.TvShow));
+            return Ok(_videoService.SearchMovies(VideoType.TvShow, quickSearch));
+        }
+        
+
+
+        [HttpPost("rate-video")]
+        public IActionResult RateVideo(int id, int score)
+        {
+            _videoService.RateVideo(id, score);
+            return Ok();
         }
     }
 }
