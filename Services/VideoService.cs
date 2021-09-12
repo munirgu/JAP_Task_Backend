@@ -48,10 +48,8 @@ namespace JAP_Task_Backend.Services
 
         public List<VideoDto> SearchMovies(VideoType videoType, string quickSearch)
         {
-
-
-
             var videos = _context.Videos
+
                 .Where(w => w.Type == videoType &&
                       (w.Title.ToLower().Contains(quickSearch.ToLower()) ||
                        w.Description.ToLower().Contains(quickSearch.ToLower())))
